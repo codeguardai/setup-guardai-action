@@ -1,5 +1,9 @@
 name: "Setup GuardAI"
 description: "A GitHub Action for installing GuardAI in GitHub Workflows across multiple operating systems. Cached by default."
+author: "Best Olunusi"
+branding:
+  icon: "box"
+  color: "white"
 
 inputs:
   version:
