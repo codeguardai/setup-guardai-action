@@ -56,7 +56,7 @@ runs:
       if: ${{ startsWith(runner.os, 'Windows') }}
       shell: pwsh
       run: |
-        if (${{ inputs.version }} -eq "latest") {
+        if ("${{ inputs.version }}" -eq "latest") {
           pip install guardai
         } else {
           pip install guardai==${{ inputs.version }}
