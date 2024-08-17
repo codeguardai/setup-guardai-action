@@ -1,0 +1,63 @@
+name: "Setup GuardAI"
+description: "A GitHub Action for installing GuardAI in GitHub Workflows across multiple operating systems. Cached by default."
+
+inputs:
+  version:
+    description: "Version of GuardAI to install"
+    required: false
+    default: "latest"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.x"
+
+    - name: Cache pip dependencies on Linux
+      if: ${{ startsWith(runner.os, 'Linux') }}
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('action.yml') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
+    - name: Cache pip dependencies on macOS
+      if: ${{ startsWith(runner.os, 'macOS') }}
+      uses: actions/cache@v4
+      with:
+        path: ~/Library/Caches/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('action.yml') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
+    - name: Cache pip dependencies on Windows
+      if: ${{ startsWith(runner.os, 'Windows') }}
+      uses: actions/cache@v4
+      with:
+        path: ~\AppData\Local\pip\Cache
+        key: ${{ runner.os }}-pip-${{ hashFiles('action.yml') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
+    - name: Install GuardAI on Linux/macOS
+      if: ${{ startsWith(runner.os, 'Linux') || startsWith(runner.os, 'macOS') }}
+      shell: bash
+      run: |
+        if [ "${{ inputs.version }}" = "latest" ]; then
+          pip install guardai
+        else
+          pip install guardai==${{ inputs.version }}
+        fi
+
+    - name: Install GuardAI on Windows
+      if: ${{ startsWith(runner.os, 'Windows') }}
+      shell: pwsh
+      run: |
+        if (${{ inputs.version }} -eq "latest") {
+          pip install guardai
+        } else {
+          pip install guardai==${{ inputs.version }}
+        }
