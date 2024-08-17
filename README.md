@@ -24,12 +24,12 @@ This action is a `composite` action.
 
 <!-- action-docs-runs action="action.yml" -->
 
-<!-- action-docs-usage action="action.yml" project="codeguardai/setup-guardai-action" version="0.1.0" -->
+<!-- action-docs-usage action="action.yml" project="codeguardai/setup-guardai-action" version="v0.1.0" -->
 
 ## Usage
 
 ```yaml
-- uses: codeguardai/setup-guardai-action@0.1.0
+- uses: codeguardai/setup-guardai-action@v0.1.0
   with:
     version:
     # Version of GuardAI to install
@@ -38,4 +38,4 @@ This action is a `composite` action.
     # Default: latest
 ```
 
-<!-- action-docs-usage action="action.yml" project="codeguardai/setup-guardai-action" version="0.1.0" -->
+<!-- action-docs-usage action="action.yml" project="codeguardai/setup-guardai-action" version="v0.1.0" -->
