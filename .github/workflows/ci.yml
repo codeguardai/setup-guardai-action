@@ -1,0 +1,38 @@
+name: Setup GuardAI Action CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-setup-guardai:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Run Setup GuardAI Action (First Run)
+        uses: ./
+        with:
+          version: "latest"
+
+      - name: Run Setup GuardAI Action (Cached)
+        uses: ./
+        with:
+          version: "latest"
+
+      - name: Verify GuardAI Installation on Linux and macOS
+        if: ${{ startsWith(runner.os, 'Linux') || startsWith(runner.os, 'macOS') }}
+        shell: bash
+        run: guardai --help
+
+      - name: Verify GuardAI Installation on Windows
+        if: ${{ startsWith(runner.os, 'Windows') }}
+        shell: pwsh
+        run: guardai --help
